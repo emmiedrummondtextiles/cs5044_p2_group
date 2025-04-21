@@ -167,3 +167,10 @@
       padding: 1rem 0.5rem 1.5rem;
     }
   }  
+
+  .axis text      { font-size: 11px; fill:#555 }
+  .axis path,
+  .axis line      { stroke:#aaa }
+  .line           { mix-blend-mode: multiply }
+  .node text      { pointer-events:none }
+  .flow path      { pointer-events:none }
