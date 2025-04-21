@@ -1,0 +1,169 @@
+/* =============================
+   Eurovision Visualisation – global styles
+   ============================= */
+   * {
+    box-sizing: border-box;
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  body {
+    margin: 0;
+    background: #fafafa;
+    color: #222;
+  }
+  
+  h2 {
+    margin: 1.25rem 0 0.5rem;
+    font-weight: 600;
+    font-size: 1.4rem;
+  }
+  
+  section {
+    padding: 1.25rem 1rem 2rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .svg-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+  }
+  
+  .svg-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* -----------------------------
+     Tooltips & interaction helpers
+     ----------------------------- */
+  .tooltip {
+    position: absolute;
+    z-index: 10;
+    visibility: hidden;
+    padding: 0.5rem 0.75rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    pointer-events: none;
+    max-width: 240px;
+    line-height: 1.35em;
+  }
+  
+  .highlight {
+    stroke: #111;
+    stroke-width: 2;
+  }
+  
+  .arrow {
+    fill: none;
+    stroke: #d81b60;
+    opacity: 0.75;
+    marker-end: url(#arrowHead);
+  }
+  
+  /* -----------------------------
+     Specific view containers
+     ----------------------------- */
+  #mapView svg {
+    cursor: pointer;
+  }
+  
+  #dotPlot svg circle {
+    opacity: 0.9;
+    stroke: #333;
+    stroke-width: 0.5px;
+  }
+  
+  #correlationMatrix rect.active {
+    stroke: #d81b60;
+    stroke-width: 2.5px;
+  }
+  
+  /* controls */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin: 0.75rem 0 1.25rem;
+  }
+  
+  .controls label {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  #yearSlider {
+    flex: 1 1 260px;
+  }
+  
+  select {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  /* -----------------------------
+     Radar chart (overlay modal)
+     ----------------------------- */
+  #radarOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+  }
+  
+  #radarOverlay.open {
+    display: flex;
+  }
+  
+  #radarChartContainer {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    min-width: 320px;
+    min-height: 320px;
+    position: relative;
+  }
+  
+  #radarChartContainer button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #777;
+  }
+  
+  /* treemap labels */
+  .treemap-node text {
+    pointer-events: none;
+    font-size: 0.7rem;
+    fill: #fff;
+  }
+  
+  /* violin plot */
+  .violin {
+    fill: #90caf9;
+    stroke: #1e88e5;
+    opacity: 0.75;
+  }
+  
+  @media (max-width: 768px) {
+    section {
+      padding: 1rem 0.5rem 1.5rem;
+    }
+  }  

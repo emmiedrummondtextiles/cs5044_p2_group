@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Eurovision 1998–2012 – Exploratory Visualisation</title>
+  <!-- D3.js → **no other frameworks** -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- (Include topojson if necessary; e.g.: -->
+  <script src="https://d3js.org/topojson.v2.min.js"></script> 
+  <style>
+    /* ────────────────────────────────  BASIC LAYOUT  ─────────────────────────────── */
+    html, body { margin:0; font-family:system-ui,Helvetica,Arial,sans-serif; background:#fafafa; color:#333; }
+    h1, h2 { margin:0.5rem 1rem; }
+    section { padding:1rem 1.5rem; border-bottom:1px solid #e5e5e5; }
+    svg { max-width:100%; height:auto; }
+    .flex-row { display:flex; gap:1rem; flex-wrap:wrap; }
+    #map { width:100%; height:550px; }
+    #dotplotSVG, #linechartSVG, #treemapSVG, #corrMatrixSVG { width:100%; height:480px; }
+    #radarContainer, #violinContainer { width:300px; height:300px; margin-top:0.5rem; }
+    #yearSlider { width:60%; }
+    .tooltip { position:absolute; pointer-events:none; background:rgba(0,0,0,0.8); color:#fff; padding:0.4rem 0.6rem; border-radius:4px; font-size:0.8rem; line-height:1.2; }
+  </style>
+</head>
+<body>
+  <h1>Eurovision 1998 – 2012: Interactive Data Stories</h1>
+
+  <!-- ───── Choropleth Map + Year Slider  ───── -->
+  <section id="map-section">
+    <h2>Points Awarded by Country</h2>
+    <p>The choropleth shows the sum of <em>Normalized Points</em> a country received in a given year (or across all years). Slide through the years to explore trends. Click a country to reveal how it voted.</p>
+    <div id="map"></div>
+    <div class="flex-row" style="align-items:center;">
+      <input type="range" id="yearSlider" min="1998" max="2012" step="1" value="1998" />
+      <span id="yearLabel">1998</span>
+      <button id="resetYear">All Years</button>
+    </div>
+  </section>
+
+  <!-- ───── Jittered Dot‑Plot by Artist & Gender  ───── -->
+  <section id="dotplot-section">
+    <h2>Artist Performance by Gender</h2>
+    <svg id="dotplotSVG"></svg>
+  </section>
+
+  <!-- ───── Winning‑Song Feature Trend  ───── -->
+  <section id="linechart-section">
+    <h2>Winning‑Song Feature over Time</h2>
+    <label for="featureSelect">Feature:</label>
+    <select id="featureSelect"></select>
+    <svg id="linechartSVG"></svg>
+    <div id="radarContainer"></div>
+  </section>
+
+  <!-- ───── Treemap of Top‑5 Bands  ───── -->
+  <section id="treemap-section">
+    <h2>Top‑5 Groups & Dominant Features</h2>
+    <svg id="treemapSVG"></svg>
+  </section>
+
+  <!-- ───── Correlation Matrix  ───── -->
+  <section id="corr-section">
+    <h2>Feature Correlation Matrix</h2>
+    <svg id="corrMatrixSVG"></svg>
+    <div id="violinContainer"></div>
+  </section>
+
+  <!-- ───── Tooltip Placeholder  ───── -->
+  <div id="tooltip" class="tooltip" style="opacity:0"></div>
+
+  <!-- ────────────────────────────────  MAIN JS  ─────────────────────────────── -->
+  <script src="main.js"></script>
+</body>
+</html>
