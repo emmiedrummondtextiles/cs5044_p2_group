@@ -499,13 +499,18 @@ function drawLineChart(rows) {
       
       // Add tooltip interactions with dots.
       lineSvg.selectAll('.dot')
-        .on('mouseover', (event, d) => {
+      .on('mouseover', (event, d) => {
           tooltip.style('opacity', 1)
-            .html(`<strong>Year:</strong> ${d.Year}<br><strong>${f}:</strong> ${d.value.toFixed(2)}`)
+            .html(`<strong>Year:</strong> ${d.Year}<br>
+                  <strong>${f}:</strong> ${d.value.toFixed(2)}`)
             .style('left', (event.pageX + 10) + 'px')
-            .style('top',  (event.pageY + 10) + 'px');
-        })
-        .on('mouseout', () => tooltip.style('opacity', 0));
+            .style('top',  (event.pageY  + 10) + 'px');
+      })
+      .on('mouseout', () => tooltip.style('opacity', 0))
+      .on('click', (event, d) => {
+          const song = rows.find(r => r.Year === d.Year && r.Place === 1);
+          showRadar(song);
+      });
     }
   });
   
