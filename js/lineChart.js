@@ -80,7 +80,29 @@ export function drawLineChart(rows){
         .transition()
         .attr('d', d => line.curve(d3.curveMonotoneX)(d.data));
     
-      // Append legend if desired...
+      // Append legend for feature colour coding
+      const legend = group.append('g')
+        .attr('class', 'legend')
+        .attr('transform', `translate(${W - margin.right - 100}, ${margin.top})`);
+
+      legend.selectAll('g.legend-item')
+        .data(linesData)
+        .enter()
+        .append('g')
+          .attr('class', 'legend-item')
+          .attr('transform', (d, i) => `translate(0, ${i * 20})`)
+          .call(g => {
+             g.append('rect')
+              .attr('width', 12)
+              .attr('height', 12)
+              .attr('fill', d => colour(d.feat));
+             g.append('text')
+              .attr('x', 16)
+              .attr('y', 6)
+              .attr('dy', '0.35em')
+              .attr('font-size', '10px')
+              .text(d => d.feat);
+          });
     
     } else {
       // Single feature view: compute and draw a single line with dots.

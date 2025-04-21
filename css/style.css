@@ -125,3 +125,14 @@ select {
   /* Optionally add margins */
   margin-left: 20px;
 }
+
+/* Matrix treemap container styling */
+.matrix-treemap-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.matrix-treemap-container > div {
+  flex: 1;
+}

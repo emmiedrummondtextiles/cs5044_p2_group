@@ -49,16 +49,18 @@ export function showRadar(song){
        .attr('font-size', '10px')
        .text(d => d);
 
-  // Create a radial line generator using a linear curve (not closed)
-  const radarLine = d3.lineRadial()
-                      .curve(d3.curveLinear)
-                      .radius(d => r(d.value))
-                      .angle((d, i) => angle(i));
+  // Compute vertices from the data
+  const vertices = data.map((d, i) => [
+    r(d.value) * Math.cos(angle(i)),
+    r(d.value) * Math.sin(angle(i))
+  ]);
 
-  // Append the first vertex to explicitly close the polygon.
-  svg.append('path')
-     .datum([...data, data[0]])
-     .attr('d', radarLine)
+  // Convert vertices to a string format accepted by <polygon>
+  const points = vertices.map(p => p.join(',')).join(' ');
+
+  // Use a polygon to draw the radar chart
+  svg.append('polygon')
+     .attr('points', points)
      .attr('fill', 'orange')
      .attr('fill-opacity', 0.5)
      .attr('stroke', 'orangered')

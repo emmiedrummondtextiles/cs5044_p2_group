@@ -24,12 +24,20 @@ export function drawCorr(svg, rows) {
   let W = +svg.attr('width');
   let H = +svg.attr('height');
   if (!W || !H) {
-    // If width/height attributes are not set, fallback to the element's bounding box
     const bbox = svg.node().getBoundingClientRect();
     W = bbox.width || 500;
     H = bbox.height || 500;
   }
-  const cell = Math.min(W, H) / numeric.length;
+
+  // Use extra margin for the axis labels
+  const marginBottom = 40;
+  const marginLeft = 50;  // extra left margin for y-axis labels
+  const cell = Math.min(W - marginLeft, H - marginBottom) / numeric.length;
+  const matrixSize = cell * numeric.length;
+
+  // update the SVG dimensions to include the margins
+  svg.attr('width', matrixSize + marginLeft)
+     .attr('height', matrixSize + marginBottom);
 
   // Create colour scale
   const colour = d3.scaleSequential(d3.interpolateRdBu).domain([-1, 1]);
@@ -38,7 +46,10 @@ export function drawCorr(svg, rows) {
   svg.selectAll('*').remove();
 
   // Group for matrix cells
-  const cellGroup = svg.append("g").attr("class", "cells");
+  const cellGroup = svg.append("g")
+    .attr("class", "cells")
+    .attr("transform", `translate(${marginLeft},0)`);
+    
   cellGroup.selectAll('rect')
     .data(matrix)
     .enter().append('rect')
@@ -58,18 +69,34 @@ export function drawCorr(svg, rows) {
         if (d.col1 !== d.col2) showViolin(d.col1, d.col2, rows);
       });
 
-  // Group for axis labels
-  const labelGroup = svg.append("g").attr("class", "axis-labels");
-  labelGroup.selectAll('text.axis')
+  // Group for x axis labels – placed in the extra bottom margin
+  const xLabels = svg.append("g")
+    .attr("class", "x-labels")
+    .attr("transform", `translate(${marginLeft},0)`);
+    
+  xLabels.selectAll('text')
     .data(numeric)
     .enter().append('text')
-      .attr('class', 'axis')
-      .attr('transform', (_, i) =>
-        `translate(${i * cell + cell/2}, ${numeric.length * cell + 12}) rotate(-45)`
-      )
+      .attr('transform', (_, i) => `translate(${i * cell + cell/2}, ${matrixSize + marginBottom/2}) rotate(-45)`)
       .attr('text-anchor', 'middle')
       .text(d => d)
-      .attr('font-size', '10px');
+      .attr('font-size', '10px')
+      .attr('fill', '#555');
+
+  // Group for y axis labels – placed in the left margin
+  const yLabels = svg.append("g")
+    .attr("class", "y-labels");
+    
+  yLabels.selectAll('text')
+    .data(numeric)
+    .enter().append('text')
+      .attr('x', marginLeft - 5)
+      .attr('y', (_, i) => i * cell + cell/2)
+      .attr('text-anchor', 'end')
+      .attr('dominant-baseline', 'middle')
+      .text(d => d)
+      .attr('font-size', '10px')
+      .attr('fill', '#555');
 }
 
 // simple Pearson correlation calculation
