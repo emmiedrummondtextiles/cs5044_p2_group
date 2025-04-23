@@ -6,9 +6,9 @@
 html, body {
   margin: 0;
   padding: 0; 
-  background: #0000;
-  color: #fff;
-  font-family: 'Futura', sans /* adding in futura font for css styling */
+  background: #d3747400;
+  color: rgba(71, 89, 170, 0.333);
+  font-family: 'Futura', sans-serif /* adding in futura font for css styling */
 }
 
 h2 {
@@ -21,7 +21,7 @@ section {
   padding: 1.25rem 1rem 2rem;
   max-width: 1280px;
   margin: 0 auto;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #a12d2d;
 }
 
 /* Universal SVG styling for proper dimensions and display */
@@ -85,7 +85,7 @@ select {
 
 .axis path,
 .axis line {
-  stroke: #aaa;
+  stroke: #651fe6;
 }
 
 /* Common visualization layer styling */
