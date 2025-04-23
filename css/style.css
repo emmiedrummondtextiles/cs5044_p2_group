@@ -3,10 +3,12 @@
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 
-body {
+html, body {
   margin: 0;
-  background: #fafafa;
-  color: #222;
+  padding: 0; 
+  background: #0000;
+  color: #fff;
+  font-family: 'Futura', sans /* adding in futura font for css styling */
 }
 
 h2 {
