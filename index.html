@@ -14,10 +14,14 @@
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
 </head>
 <body>
+  <header>
+    <h1>    Eurovision: How To Make The Perfect Entry! </h1>
+  </header>
 
 
   <section id="mapView">
-    <h2>Choropleth - total points</h2>
+    <h2>  How do countries rank one- another? Explore the map!</h2>
+    <h3> Discover winners by year and country, click to see which countries gave and received points!<h3>
     <div class="controls">
       <label for="yearSlider">Year</label>
       <input id="yearSlider" type="range" min="1998" max="2012" step="1" value="1998">
@@ -28,12 +32,16 @@
   </section>
 
   <section id="dotPlot">
-    <h2>Artists grouped by gender</h2>
+    <h2>Is there gender bias within entires? </h2>
+    <h3> Explore artist submissions by gender, do you see a correlation?</h3>
+
     <svg id="dotplotSVG" class="svg-content"></svg>
   </section>
 
   <section id="lineChart">
-    <h2>Winning-song feature over time</h2>
+    <h2>What audio features make a submission more likely to win? </h2>
+    <h3>Filter by audio features to discover style trends throughout the years. </h3>
+
     <div class="controls">
       <label for="featureSelect">Feature</label>
       <select id="featureSelect"></select>
@@ -44,6 +52,8 @@
 
   <section id="matrixTreemap">+
     <h2>Dominant Song Feature & Correlation Matrix</h2>
+    <h3> Explore the Matrix to see dominant features by points won!</h3>
+    <h3>   class = "subtitle">Hover for $r$, click to explore distributions</h3>
     <div class="matrix-treemap-container">
       <div id="treemapContainer">
         <svg id="treemapSVG" class="svg-content"></svg>
