@@ -22,12 +22,11 @@ section {
   border-bottom: 1px solid #e0e0e0;
 }
 
-/* Universal SVG styling for proper dimensions and display */
 svg {
   display: block;
 }
 
-/* Apply fixed dimensions to all visualization SVGs */
+/* Apply fixed dimensions to all visualisation SVGs */
 .svg-content,
 #dotplotSVG,
 #linechartSVG,
@@ -86,7 +85,7 @@ select {
   stroke: #aaa;
 }
 
-/* Common visualization layer styling */
+/* Common visualisation layer styling */
 .line {
   mix-blend-mode: multiply;
 }
@@ -204,13 +203,11 @@ select {
   color: #303f9f;
 }
 
-/* Overall body tweaks */
 body {
   background: #f4f6f8;
   font-family: 'Inter', sans-serif;
 }
 
-/* Controls polish */
 .controls select,
 .controls input[type="range"],
 .controls button {
