@@ -11,7 +11,6 @@
 </head>
 <body>
 
-  <!-- Global header -->
   <header class="site-header">
     <h1>Eurovision Analytics Dashboard</h1>
     <p class="site-subtitle">
@@ -61,7 +60,7 @@
   <!-- Choropleth Section -->
   <section id="choropleth" class="viz-container">
     <div class="section-intro">
-      <p>Visualize total points awarded to each country on the map. Use the slider or "All Years" button to change the time frame.</p>
+      <p>Visualise total points awarded to each country on the map. Use the slider or "All Years" button to change the time frame.</p>
     </div>
     <h2>Choropleth - Total Points</h2>
     <div class="controls">
@@ -87,18 +86,17 @@
       <div class="chart-wrapper">
         <h3>Group vs. Solo</h3>
         <div class="controls">
-          <label for="yearFilter1">Year:</label>
-          <select id="yearFilter1"></select>
+          <label for="groupSoloYearSelector">Year:</label>
+          <select id="groupSoloYearSelector"></select>
         </div>
         <div id="bubbleChart"></div>
       </div>
     </div>
   </section>
 
-  <!-- Time Series Section -->
+  <!-- Line Chart Section -->
   <section id="lineChart" class="viz-container">
     <div class="line-chart-layout" style="display: flex; flex-direction: row; align-items: flex-start; gap: 20px;">
-      <!-- Left column for title, intro and controls -->
       <div class="line-chart-controls" style="flex: 0 0 300px;">
         <h2>Winning-Song Features Over Time</h2>
         <div class="section-intro">
@@ -109,7 +107,6 @@
           <select id="featureSelect"></select>
         </div>
       </div>
-      <!-- Right column for the charts -->
       <div class="line-chart-chart" style="flex: 1; display: flex; flex-direction: row; gap: 20px;">
         <svg id="linechartSVG" class="svg-content"></svg>
         <div id="radarContainer"></div>

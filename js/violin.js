@@ -1,4 +1,3 @@
-// violin.js ---------------------------------------------------
 export function showViolin(f1, f2, rows){
     const div = d3.select('#violinContainer');
     div.selectAll('*').remove();

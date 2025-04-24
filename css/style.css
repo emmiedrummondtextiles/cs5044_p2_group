@@ -123,7 +123,6 @@ select {
 
 #radarContainer {
   width: 320px; /* Fixed width for the radar chart */
-  /* Optionally add margins */
   margin-left: 20px;
 }
 

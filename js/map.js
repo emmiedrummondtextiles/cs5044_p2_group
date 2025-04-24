@@ -1,10 +1,8 @@
-// js/map.js ----------------------------------------------------------
 import { showTooltip, hideTooltip } from './utils.js';
 
 export function drawMap(rows, votingData, world, countryInfo) {
   const MAP_H = 550;
 
-  // clear & recreate svg container
   const container = d3.select('#map');
   container.selectAll('*').remove();
 
@@ -14,7 +12,7 @@ export function drawMap(rows, votingData, world, countryInfo) {
 
   const layer = svg.append('g').attr('class', 'layer');
 
-  // compute current pixel width
+  // calculate current pixel width
   const svgW = container.node().getBoundingClientRect().width;
 
   // prepare map features
@@ -29,17 +27,16 @@ export function drawMap(rows, votingData, world, countryInfo) {
     }
   });
 
-  // Build a set of participant countries from your data rows
+  // Build a set of participant countries from data rows
   const participantCountries = new Set(rows.map(r => r.Country));
 
   // Filter features to only keep participant countries
   features = features.filter(f => participantCountries.has(f.properties.name));
 
   // Define a bounding box with [minLon, minLat] and [maxLon, maxLat]
-  // Boundaries: West: near Iceland, North: near Norway, East: near Russia, South: near Israel
   const bbox = [[-25, 29], [60, 71]];  
-  // Further filter the features so that only those whose centroid lies within the bbox are kept;
-  // Always include Russia even if its centroid is outside.
+  // Further filter the features so that only those whose centroid lies within the bbox are kept
+  // Always include Russia even if its centroid is outside
   features = features.filter(f => {
     if(f.properties.name === "Russia") return true;
     const cent = d3.geoCentroid(f);
@@ -47,7 +44,6 @@ export function drawMap(rows, votingData, world, countryInfo) {
            cent[1] >= bbox[0][1] && cent[1] <= bbox[1][1];
   });
 
-  // Optionally, trim far‑east Russia and strip French Guiana from France as before:
   features = features
     .map(trimRussia)
     .filter(Boolean);
@@ -66,7 +62,7 @@ export function drawMap(rows, votingData, world, countryInfo) {
     };
   });
 
-  // Build projection fitted to our *filtered* features:
+  // Build projection fitted to filtered features:
   const projection = d3.geoNaturalEarth1()
     .fitSize([svgW, MAP_H], {
       type: 'FeatureCollection',
@@ -87,13 +83,13 @@ export function drawMap(rows, votingData, world, countryInfo) {
       .attr('d', 'M0,-3L6,0L0,3')
       .attr('fill', 'tomato');
 
-  // Global state for selected year.
-  // When currentYear === "all", we show all years.
+  // Global state for selected year
+  // When currentYear === "all", show all years
   let currentYear = "all";
 
-  // Set up event listeners for the slider and All Years button:
+  // Set up event listeners for the slider and All Years button
   d3.select('#yearSlider').on('input', function() {
-    currentYear = this.value; // a year between 1998 and 2012 (as string)
+    currentYear = this.value; // a year between 1998 and 2012
     d3.select('#yearLabel').text(currentYear);
     colourMap();
     // Remove any visible voting arrows when changing the filter
@@ -110,13 +106,12 @@ export function drawMap(rows, votingData, world, countryInfo) {
 
   // Additionally, remove voting arrows when clicking away from a country
   svg.on('click', function(e) {
-    // if the clicked element is NOT a country, remove the flows
+    // if the clicked element is not a country, remove the flows
     if (!d3.select(e.target).classed('country')) {
       layer.selectAll('g.flow').remove();
     }
   });
 
-  // draw countries
   layer.selectAll('path.country')
     .data(features)
     .join('path')
@@ -158,7 +153,7 @@ export function drawMap(rows, votingData, world, countryInfo) {
   // centre & crop to features
   zoomToLayer();
 
-  // on window‑resize, recompute centre/scale
+  // on window‑resize, recalculate centre/scale
   window.addEventListener('resize', () => {
     zoomToLayer();
   });
@@ -166,7 +161,6 @@ export function drawMap(rows, votingData, world, countryInfo) {
   // expose a simple API to recolour by year
   return { colourMap };
 
-  // ——— helpers ——————————————————
 
   function colourMap() {
     // Use the currentYear if no specific year is provided
@@ -225,7 +219,7 @@ export function drawMap(rows, votingData, world, countryInfo) {
         .attr('stroke', 'tomato')
         .attr('marker-end', 'url(#arrowhead)')
         .attr('stroke-opacity', 0.7)
-        // Override CSS to allow pointer events on the arrows:
+        // Override CSS to allow pointer events on the arrows
         .style('pointer-events', 'all')
         .on('mouseover', (e, d) => {
             showTooltip(
@@ -261,7 +255,6 @@ export function drawMap(rows, votingData, world, countryInfo) {
   }
 }
 
-// ——— trim far‑east Russia —————————————————————————
 function trimRussia(feature) {
   if (feature.properties.name !== 'Russia') return feature;
 

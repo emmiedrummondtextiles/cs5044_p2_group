@@ -1,13 +1,12 @@
-// Main function to draw the bubble chart
 export function drawBubbleChartForGroupSolo(data) {
-  // Initialize original data and year filter if not already done
+  // Initialise original data and year filter if not already done
   if (!window.originalData) {
     window.originalData = cleanData(data);
     initYearFilter(window.originalData);
   }
 
   // Get selected year from the dropdown
-  const selectedYear = d3.select('#yearFilter1').property('value');
+  const selectedYear = d3.select('#groupSoloYearSelector').property('value');
   // Filter data based on selected year
   const filteredData = filterByYear(window.originalData, selectedYear);
   // Draw chart using filtered data
@@ -25,10 +24,10 @@ function cleanData(data) {
   }));
 }
 
-// Initialize the dropdown menu with unique years
+// Initialise the dropdown menu with unique years
 function initYearFilter(data) {
   const years = Array.from(new Set(data.map(d => d.Year).filter(y => !isNaN(y)))).sort((a, b) => a - b);
-  d3.select('#yearFilter1')
+  d3.select('#groupSoloYearSelector')
     .selectAll('option')
     .data(['All', ...years])
     .enter()
@@ -76,7 +75,7 @@ function drawChart(data, selectedYear) {
     .domain([0, d3.max(groupSoloCounts, d => d[1])])
     .range([10, 50]);
 
-  const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
+  const colourScale = d3.scaleOrdinal(d3.schemeTableau10);
 
   // Tooltip setup
   const tooltip = d3.select('#bubbleChart')
@@ -98,7 +97,7 @@ function drawChart(data, selectedYear) {
     .attr('cx', d => xScale(d[0]))
     .attr('cy', height / 2)
     .attr('r', d => rScale(d[1]))
-    .attr('fill', d => colorScale(d[0]))
+    .attr('fill', d => colourScale(d[0]))
     .attr('stroke', '#fff')
     .attr('stroke-width', 1)
     .on('mouseover', function(event, d) {
@@ -141,6 +140,6 @@ function drawChart(data, selectedYear) {
 }
 
 // Add listener to re-render chart when year selection changes
-d3.select('#yearFilter1').on('change', () => {
+d3.select('#groupSoloYearSelector').on('change', () => {
   drawBubbleChartForGroupSolo(window.originalData);
 });

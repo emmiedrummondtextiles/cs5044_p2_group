@@ -1,6 +1,4 @@
-// Export a function to draw a bar chart based on the provided data
 export function drawKeyBarChart(data) {
-  // Define margins and dimensions of the chart
   const margin = { top: 40, right: 20, bottom: 60, left: 60 };
   const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
@@ -9,7 +7,7 @@ export function drawKeyBarChart(data) {
   const svgContainer = d3.select('#keyBarChart');
   const selector = d3.select('#yearSelector');
 
-  // Musical‐key mapping (using sharps)
+  // Musical‐key mapping
   const keyMap = {
     0: 'C',  1: 'C#', 2: 'D',  3: 'D#',
     4: 'E',  5: 'F',  6: 'F#', 7: 'G',
@@ -26,7 +24,7 @@ export function drawKeyBarChart(data) {
     return { ...d, key: name, keyInt: raw };
   });
 
-  // Initialize the year dropdown menu
+  // Initialise the year dropdown menu
   const years = ['All', ...Array.from(new Set(data.map(d => d.Year))).sort((a, b) => a - b)];
   selector.selectAll('option')
     .data(years)

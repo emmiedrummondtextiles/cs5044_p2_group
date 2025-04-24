@@ -1,4 +1,4 @@
-import { FEATURES, normalizeSongFeatures, countryStats } from './utils.js';
+import { FEATURES, normaliseSongFeatures, countryStats } from './utils.js';
 import { drawMap }     from './map.js';
 import { drawDotPlot } from './dotPlot.js';
 import { drawLineChart } from './lineChart.js';
@@ -20,18 +20,16 @@ Promise.all([
   d3.json(WORLD_URL)
 ]).then(([rows,voting,world]) => {
 
-  /* tidy vote fields */
   voting.forEach(d => {
     d.Giver = d.Giver?.trim();
     d.Country = d.Country?.trim();
     d.Score = +d.Score;
   });
 
-  normalizeSongFeatures(rows);
+  normaliseSongFeatures(rows);
   const stats = countryStats(rows);
 
-  /* draw all views */
-  const mapApi = drawMap(rows, voting, world, stats);   // exposes colourMap(year)
+  const mapApi = drawMap(rows, voting, world, stats);
 
   drawDotPlot(rows);
   drawLineChart(rows);

@@ -1,10 +1,9 @@
-// utils.js --------------------------------------------------------
 export const FEATURES = [
   'energy','duration','acousticness','danceability','tempo',
   'speechiness','liveness','loudness','valence','Happiness'
 ];
 
-export function normalizeSongFeatures(rows){
+export function normaliseSongFeatures(rows){
   const toNorm=['energy','duration','tempo','Happiness','loudness'];
   toNorm.forEach(f=>{
     const [mn,mx]=d3.extent(rows,d=>+d[f]);
@@ -22,7 +21,6 @@ export function countryStats(rows){
     }]));
 }
 
-/* ---------- small chart helpers ----------- */
 export function showTooltip(html,[x,y]){
   d3.select('#tooltip').style('visibility','visible')
     .html(html).style('left',`${x}px`).style('top',`${y}px`);

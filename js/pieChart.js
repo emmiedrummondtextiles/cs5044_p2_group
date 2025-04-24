@@ -29,7 +29,7 @@ export function drawPieChart(data) {
     .attr('transform', `translate(${width / 2 + margin.left}, ${height / 2 + margin.top})`);
 
   const radius = Math.min(width, height) / 2;
-  const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+  const colourScale = d3.scaleOrdinal(d3.schemeCategory10);
 
   // Define the pie generator
   const pie = d3.pie()
@@ -49,7 +49,7 @@ export function drawPieChart(data) {
 
   arcs.append('path')
     .attr('d', arc)
-    .attr('fill', d => colorScale(d.data[0]))  // Apply appropriate color mapping
+    .attr('fill', d => colourScale(d.data[0]))  // Apply appropriate colour mapping
     .attr('stroke', 'white')  // Add white borders to separate arcs
     .attr('stroke-width', 1);
 
@@ -82,11 +82,11 @@ export function drawPieChart(data) {
   })
   .on('mousemove', function(event) {
     tooltip
-      .style('top', `${event.pageY + 10}px`)  // Adjust tooltip position
+      .style('top', `${event.pageY + 10}px`)
       .style('left', `${event.pageX + 10}px`);
   })
   .on('mouseout', function() {
-    tooltip.style('visibility', 'hidden');  // Hide tooltip
+    tooltip.style('visibility', 'hidden');
   });
 
   // Add chart title
@@ -99,8 +99,6 @@ export function drawPieChart(data) {
 
   // Get unique year values and sort them
   const years = Array.from(new Set(data.map(d => d['Year']))).sort((a, b) => a - b);
-
-  // Use the existing select element with id "engNonEngYearSelector"
   const yearSelect = d3.select('#engNonEngYearSelector');
 
   // Attach event listener for changes on the existing select element
@@ -111,7 +109,7 @@ export function drawPieChart(data) {
     updatePieChartForYear(selectedYear);
   });
 
-  // Clear any previous options (if necessary)
+  // Clear any previous options
   yearSelect.selectAll('option').remove();
 
   // Add an "All" option for the filter
@@ -132,7 +130,7 @@ export function drawPieChart(data) {
     // Filter data (if "All" is selected, do not filter)
     let filteredData = year === 'All' ? data : data.filter(d => d['Year'] === +year);  
 
-    // Recompute counts for the Song_In_English column
+    // Recalculate counts for the Song_In_English column
     const updatedSongInEnglishCounts = d3.rollups(
       filteredData,
       v => v.length,
@@ -151,7 +149,7 @@ export function drawPieChart(data) {
 
     newArcs.append('path')
       .attr('d', arc)
-      .attr('fill', d => colorScale(d.data[0]))  // Apply appropriate color mapping
+      .attr('fill', d => colourScale(d.data[0]))  // Apply appropriate colour mapping
       .attr('stroke', 'white')  // Add white borders to separate arcs
       .attr('stroke-width', 1);
 

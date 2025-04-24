@@ -1,4 +1,3 @@
-// dotPlot.js ------------------------------------------------------
 import { FEATURES, showTooltip, hideTooltip } from './utils.js';
 
 export function drawDotPlot(rows){
@@ -11,7 +10,7 @@ export function drawDotPlot(rows){
       v => ({
         appearances: v.length,
         country: v[0].Country,
-        // Normalize gender value; trim and fallback to 'N/A'
+        // Normalise gender value; trim and fallback to 'N/A'
         gender: v[0].Artist_gender ? v[0].Artist_gender.trim() : 'N/A',
         total: d3.sum(v, r => r.Normalized_Points),
         years: [...new Set(v.map(r => r.Year))].join(', '),
@@ -22,13 +21,13 @@ export function drawDotPlot(rows){
     ([Artist, data]) => ({ Artist, ...data })
   );
 
-  // Define the explicit order for gender and the corresponding colors:
+  // Define the explicit order for gender and the corresponding colours
   const genderDomain = ['Male', 'Female', 'Both', 'N/A'];
-  const color = d3.scaleOrdinal()
+  const colour = d3.scaleOrdinal()
                   .domain(genderDomain)
                   .range(['blue', 'pink', 'green', 'grey']);
 
-  // Use an ordinal (scalePoint) x-axis so that missing or 'N/A' values land in the correct position.
+  // Use an ordinal x-axis so that missing or 'N/A' values land in the correct position
   const x = d3.scalePoint()
               .domain(genderDomain)
               .range([80, width - 40])
@@ -49,14 +48,14 @@ export function drawDotPlot(rows){
      .call(d3.axisLeft(y));
 
   svg.selectAll('circle').data(artists).join('circle')
-    // Ensure that if d.gender is not one of our domain values, we default to 'N/A'
+    // Ensure that if d.gender is not one of the domain values, default to 'N/A'
     .attr('cx', d => {
       const g = genderDomain.includes(d.gender) ? d.gender : 'N/A';
       return x(g) + (Math.random() - 0.5) * 12;
     })
     .attr('cy', d => y(d.total))
     .attr('r', d => r(d.appearances))
-    .attr('fill', d => color(genderDomain.includes(d.gender) ? d.gender : 'N/A'))
+    .attr('fill', d => colour(genderDomain.includes(d.gender) ? d.gender : 'N/A'))
     .attr('fill-opacity', 0.6)
     .attr('stroke', '#333')
     .on('mouseover', (e, d) => {

@@ -1,4 +1,3 @@
-// lineChart.js -----------------------------------------------------
 import { FEATURES, showTooltip, hideTooltip } from './utils.js';
 import { showRadar } from './radar.js';
 
@@ -14,7 +13,7 @@ export function drawLineChart(rows){
   const xG = svg.append('g').attr('transform', `translate(0,${H-50})`);
   const yG = svg.append('g').attr('transform', 'translate(50,0)');
 
-  // Populate the feature select drop-down menu with "all" as default
+  // Populate the feature select drop-down menu with all as default
   const featureSel = d3.select('#featureSelect');
   const options = ["all", ...FEATURES];
   featureSel.selectAll("option")
@@ -23,7 +22,7 @@ export function drawLineChart(rows){
       .attr("value", d => d)
       .text(d => d === "all" ? "All Features" : d);
 
-  // Set default to "all"
+  // Set default to all
   featureSel.property('value', 'all');
 
   // Attach event listener for changes
@@ -34,31 +33,30 @@ export function drawLineChart(rows){
     const f = featureSel.property('value');
     svg.selectAll('g.chart-content').remove(); // remove previous chart content
 
-    // Set margins so that the drawing area uses nearly the full width.
-    // Left margin for the y-axis; minimal right margin.
+    // Set margins so that the drawing area uses nearly the full width
+    // Left margin for the y-axis; minimal right margin
     const margin = { top: 50, right: 20, bottom: 50, left: 50 };
 
     // Update scales to use the full width (W is taken from the SVG dimensions)
     x.range([margin.left, W - margin.right]);
     y.range([H - margin.bottom, margin.top]);
 
-    // Append group for chart content:
+    // Append group for chart content
     const group = svg.append('g').attr('class', 'chart-content');
 
     if(f === 'all'){
-      // Multi-line: one line per feature using winning songs (Place===1)
       const linesData = FEATURES.map(feat => {
         const wData = rows.filter(r => r.Place === 1 && Number.isFinite(+r[feat]));
         let data = Array.from(
           d3.rollup(wData, v => d3.mean(v, d => +d[feat]), d => d.Year),
           ([Year, val]) => ({ Year: +Year, value: val })
         ).filter(d => Number.isFinite(d.value));
-        // Sort data by Year:
+        // Sort data by Year
         data.sort((a, b) => d3.ascending(a.Year, b.Year));
         return { feat, data };
       }).filter(d => d.data.length);
 
-      // Set domains using winning song data:
+      // Set domains using winning song data
       x.domain(d3.extent(rows.filter(r => r.Place === 1), d => +d.Year));
       y.domain(d3.extent(linesData.flatMap(l => l.data.map(d => d.value)))).nice();
     
@@ -105,7 +103,7 @@ export function drawLineChart(rows){
           });
     
     } else {
-      // Single feature view: compute and draw a single line with dots.
+      // Single feature view: calculate and draw a single line with dots.
       let data = Array.from(
         d3.rollup(
           rows.filter(r => r.Place === 1 && Number.isFinite(+r[f])),

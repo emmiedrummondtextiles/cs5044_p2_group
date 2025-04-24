@@ -1,18 +1,16 @@
-// radar.js ---------------------------------------------------
 import { FEATURES, showTooltip, hideTooltip } from './utils.js';
 
-/* -------- radar (single winner) -------- */
 export function showRadar(song){
   const div = d3.select('#radarContainer'); 
   div.selectAll('*').remove();
   if (!song) return;
 
   const size = 260, radius = size/2 - 30;
-  // Construct data: for each feature, get the normalized value from the song (or 0)
+  // Construct data: for each feature, get the normalised value from the song (or 0)
   const data = FEATURES.map(f => ({ axis: f, value: +song[f] || 0 }));
   // Angle for each feature (vertex)
   const angle = i => Math.PI * 2 / FEATURES.length * i - Math.PI / 2;
-  // r scale converts normalized value (0-1) to a pixel distance from center
+  // r scale converts normalised value (0-1) to a pixel distance from center
   const r = d3.scaleLinear().domain([0, 1]).range([0, radius]);
 
   const svg = div.append('svg')
@@ -49,13 +47,12 @@ export function showRadar(song){
        .attr('font-size', '10px')
        .text(d => d);
 
-  // Compute vertices from the data
+  // Calculate vertices from the data
   const vertices = data.map((d, i) => [
     r(d.value) * Math.cos(angle(i)),
     r(d.value) * Math.sin(angle(i))
   ]);
 
-  // Convert vertices to a string format accepted by <polygon>
   const points = vertices.map(p => p.join(',')).join(' ');
 
   // Use a polygon to draw the radar chart

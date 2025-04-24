@@ -6,7 +6,7 @@ export function drawCorr(svg, rows) {
   // list of numeric columns
   const numeric = ['Normalized_Points', 'Song_Quality', 'Place', ...FEATURES];
 
-  // compute correlation matrix
+  // calculate correlation matrix
   const matrix = numeric.flatMap((c1, i) =>
     numeric.map((c2, j) => ({
       x: j,
@@ -20,7 +20,7 @@ export function drawCorr(svg, rows) {
     }))
   );
 
-  // Ensure valid SVG dimensions:
+  // Ensure valid SVG dimensions
   let W = +svg.attr('width');
   let H = +svg.attr('height');
   if (!W || !H) {
@@ -31,7 +31,7 @@ export function drawCorr(svg, rows) {
 
   // Use extra margin for the axis labels
   const marginBottom = 40;
-  const marginLeft = 50;  // extra left margin for y-axis labels
+  const marginLeft = 50;
   const cell = Math.min(W - marginLeft, H - marginBottom) / numeric.length;
   const matrixSize = cell * numeric.length;
 
@@ -99,7 +99,7 @@ export function drawCorr(svg, rows) {
       .attr('fill', '#555');
 }
 
-// simple Pearson correlation calculation
+// Pearson correlation calculation
 function calcCorr(a, b) {
   const n = Math.min(a.length, b.length);
   if (n === 0) return NaN;
