@@ -69,7 +69,7 @@ export function drawCorr(svg, rows) {
         if (d.col1 !== d.col2) showViolin(d.col1, d.col2, rows);
       });
 
-  // Group for x axis labels – placed in the extra bottom margin
+  // Group for x axis labels - placed in the extra bottom margin
   const xLabels = svg.append("g")
     .attr("class", "x-labels")
     .attr("transform", `translate(${marginLeft},0)`);
@@ -83,7 +83,7 @@ export function drawCorr(svg, rows) {
       .attr('font-size', '10px')
       .attr('fill', '#555');
 
-  // Group for y axis labels – placed in the left margin
+  // Group for y axis labels - placed in the left margin
   const yLabels = svg.append("g")
     .attr("class", "y-labels");
     

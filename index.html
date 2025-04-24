@@ -3,22 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Eurovision Visualisation</title>
+  <title>Eurovision Dashboard</title>
 
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- data‑viz libraries -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
 </head>
 <body>
 
-  <section id="mapView">
-    <div class="bar-charts-container">
+  <!-- Global header -->
+  <header class="site-header">
+    <h1>Eurovision Analytics Dashboard</h1>
+    <p class="site-subtitle">
+      Explore trends in song features, language, and performance across Eurovision (1998-2012).
+      Use the interactive controls below each chart to filter by year or feature.
+    </p>
+  </header>
+
+  <!-- Key & Time Signature Section -->
+  <section id="mapView" class="viz-container">
+    <div class="section-intro">
+      <p>This panel lets you compare the distribution of <strong>musical keys</strong> and <strong>time signatures</strong> across all contest years. Use the dropdowns to filter by year.</p>
+    </div>
+    <div class="bar-charts-container" style="display: flex; flex-direction: column;">
       <div class="bar-chart-wrapper">
         <h2>Key</h2>
         <div class="controls">
-          <label for="yearSelector"> Year: </label>
+          <label for="yearSelector">Year:</label>
           <select id="yearSelector"></select>
         </div>
         <div id="keyBarChart"></div>
@@ -26,22 +37,35 @@
       <div class="bar-chart-wrapper">
         <h2>Time Signature</h2>
         <div class="controls">
-          <label for="yearSelector1"> Year: </label>
+          <label for="yearSelector1">Year:</label>
           <select id="yearSelector1"></select>
         </div>
         <div id="timeSigBarChart"></div>
       </div>
     </div>
+  </section>
 
-    <h2> English vs. Non-English </h2>
-    <section id="pieChartSection">
-      <div id="yearFilter"></div>
-      <div id="pieChart"></div>
-    </section>
-
-    <h2>Choropleth - total points</h2>
+  <!-- Language Section -->
+  <section id="pieChartSection" class="viz-container">
+    <div class="section-intro">
+      <p>This pie chart shows the proportion of songs performed in English vs non-English. Select a year to see the breakdown.</p>
+    </div>
+    <h2>English vs. Non-English</h2>
     <div class="controls">
-      <label for="yearSlider">Year</label>
+      <label for="engNonEngYearSelector">Year:</label>
+      <select id="engNonEngYearSelector"></select>
+    </div>
+    <div id="pieChart"></div>
+  </section>
+
+  <!-- Choropleth Section -->
+  <section id="choropleth" class="viz-container">
+    <div class="section-intro">
+      <p>Visualize total points awarded to each country on the map. Use the slider or "All Years" button to change the time frame.</p>
+    </div>
+    <h2>Choropleth - Total Points</h2>
+    <div class="controls">
+      <label for="yearSlider">Year:</label>
       <input id="yearSlider" type="range" min="1998" max="2012" step="1" value="1998">
       <span id="yearLabel">1998</span>
       <button id="allYearsBtn">All Years</button>
@@ -49,16 +73,21 @@
     <div id="map"></div>
   </section>
 
-  <section id="artistComparison">
+  <!-- Artist Comparison -->
+  <section id="artistComparison" class="viz-container">
+    <div class="section-intro">
+      <p>Compare artists by gender and by group vs solo. Hover or click for details on demand.</p>
+    </div>
+    <h2>Artist Comparisons</h2>
     <div class="comparison-container">
       <div class="chart-wrapper">
-        <h2>Artists grouped by gender</h2>
+        <h3>Grouped by Gender</h3>
         <svg id="dotplotSVG" class="svg-content"></svg>
       </div>
       <div class="chart-wrapper">
-        <h2>Group vs. Solo</h2>
+        <h3>Group vs. Solo</h3>
         <div class="controls">
-          <label for="yearFilter1"> Year:</label>
+          <label for="yearFilter1">Year:</label>
           <select id="yearFilter1"></select>
         </div>
         <div id="bubbleChart"></div>
@@ -66,22 +95,36 @@
     </div>
   </section>
 
-  <section id="lineChart">
-    <h2>Winning-song feature over time</h2>
-    <div class="controls">
-      <label for="featureSelect">Feature</label>
-      <select id="featureSelect"></select>
+  <!-- Time Series Section -->
+  <section id="lineChart" class="viz-container">
+    <div class="line-chart-layout" style="display: flex; flex-direction: row; align-items: flex-start; gap: 20px;">
+      <!-- Left column for title, intro and controls -->
+      <div class="line-chart-controls" style="flex: 0 0 300px;">
+        <h2>Winning-Song Features Over Time</h2>
+        <div class="section-intro">
+          <p>Track winning-song audio features over time. Select different features to see trends.</p>
+        </div>
+        <div class="controls">
+          <label for="featureSelect">Feature:</label>
+          <select id="featureSelect"></select>
+        </div>
+      </div>
+      <!-- Right column for the charts -->
+      <div class="line-chart-chart" style="flex: 1; display: flex; flex-direction: row; gap: 20px;">
+        <svg id="linechartSVG" class="svg-content"></svg>
+        <div id="radarContainer"></div>
+      </div>
     </div>
-    <svg id="linechartSVG" class="svg-content"></svg>
-    <div id="radarContainer"></div>
   </section>
 
-  <section id="matrixTreemap">
-    <h2>Dominant Song Feature & Correlation Matrix</h2>
+  <!-- Matrix & Treemap -->
+  <section id="matrixTreemap" class="viz-container">
+    <div class="section-intro">
+      <p>Explore dominant audio features and their correlations in a treemap and matrix layout.</p>
+    </div>
+    <h2>Feature Dominance & Correlation</h2>
     <div class="matrix-treemap-container">
-      <div id="treemapContainer">
-        <svg id="treemapSVG" class="svg-content"></svg>
-      </div>
+      <div id="treemapContainer"><svg id="treemapSVG" class="svg-content"></svg></div>
       <div id="corrMatrixContainer">
         <svg id="corrMatrixSVG" class="svg-content"></svg>
         <div id="violinContainer"></div>
@@ -89,10 +132,7 @@
     </div>
   </section>
 
-  <!-- global tooltip -->
   <div id="tooltip" class="tooltip"></div>
-
-  <!-- entry point -->
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

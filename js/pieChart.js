@@ -97,20 +97,22 @@ export function drawPieChart(data) {
     .style('font-size', '16px')
     .text('Is the song in English?');
 
-  // Get unique year values and create options for the filter
-  const years = Array.from(new Set(data.map(d => d['Year'])))
-    .sort((a, b) => a - b);  // Sort the years in ascending order
+  // Get unique year values and sort them
+  const years = Array.from(new Set(data.map(d => d['Year']))).sort((a, b) => a - b);
 
-  // Add a year filter
-  const yearFilter = d3.select('#yearFilter');
-  const yearSelect = yearFilter.append('select')
-    .attr('id', 'yearSelect')
-    .on('change', function() {
-      const selectedYear = this.value;
-      console.log('Selected Year:', selectedYear);
-      // Update data and redraw pie chart based on selected year
-      updatePieChartForYear(selectedYear);
-    });
+  // Use the existing select element with id "engNonEngYearSelector"
+  const yearSelect = d3.select('#engNonEngYearSelector');
+
+  // Attach event listener for changes on the existing select element
+  yearSelect.on('change', function() {
+    const selectedYear = this.value;
+    console.log('Selected Year:', selectedYear);
+    // Update data and redraw pie chart based on selected year
+    updatePieChartForYear(selectedYear);
+  });
+
+  // Clear any previous options (if necessary)
+  yearSelect.selectAll('option').remove();
 
   // Add an "All" option for the filter
   yearSelect.append('option')
@@ -118,12 +120,12 @@ export function drawPieChart(data) {
     .text('All');
 
   // Populate the year options
-  yearSelect.selectAll('option')
+  yearSelect.selectAll('option.yearOption')
     .data(years)
-    .enter()
-    .append('option')
-    .attr('value', d => d)
-    .text(d => d);
+    .join('option')
+      .attr('class', 'yearOption')
+      .attr('value', d => d)
+      .text(d => d);
 
   // Function to update the pie chart based on the selected year
   function updatePieChartForYear(year) {

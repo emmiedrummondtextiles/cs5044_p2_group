@@ -94,6 +94,6 @@ export function drawTimeSigBarChart(data) {
       .attr('y', -10)
       .attr('text-anchor', 'middle')
       .style('font-size', '16px')
-      .text(`Time Signature Distribution – ${selectedYear === 'All' ? 'All Years' : selectedYear}`);
+      .text(`Time Signature Distribution - ${selectedYear === 'All' ? 'All Years' : selectedYear}`);
   }
 }
