@@ -3,7 +3,7 @@ export function drawPieChart(data) {
   const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  // 将 'NA' 替换为 'Unknown'，同时将 '0' 改为 'Others'，'1' 改为 'English' 在 Song_In_English 列
+  // Replace 'NA' with 'Unknown', change '0' to 'Others', and '1' to 'English' in the Song_In_English column
   data = data.map(d => ({
     ...d,
     'Song_In_English': d['Song_In_English'] === 'NA' ? 'Unknown' : 
@@ -11,14 +11,14 @@ export function drawPieChart(data) {
                         d['Song_In_English'] === 1 ? 'English' : d['Song_In_English']
   }));
 
-  // 获取 Song_In_English 列的所有独特值
+  // Get all unique values from the Song_In_English column and count them
   const songInEnglishCounts = d3.rollups(
     data,
     v => v.length,
     d => d['Song_In_English']
   ).sort((a, b) => d3.descending(a[1], b[1]));
 
-  // 清空旧图表
+  // Clear the previous chart
   d3.select('#pieChart').selectAll('*').remove();
 
   const svg = d3.select('#pieChart')
@@ -29,19 +29,18 @@ export function drawPieChart(data) {
     .attr('transform', `translate(${width / 2 + margin.left}, ${height / 2 + margin.top})`);
 
   const radius = Math.min(width, height) / 2;
-
   const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
-  // 定义饼图生成器
+  // Define the pie generator
   const pie = d3.pie()
     .value(d => d[1]);
 
-  // 定义弧生成器
+  // Define the arc generator
   const arc = d3.arc()
     .outerRadius(radius - 10)
     .innerRadius(0);
 
-  // 创建饼图的每一部分
+  // Create the pie chart arcs
   const arcs = svg.selectAll('.arc')
     .data(pie(songInEnglishCounts))  
     .enter()
@@ -50,20 +49,20 @@ export function drawPieChart(data) {
 
   arcs.append('path')
     .attr('d', arc)
-    .attr('fill', d => colorScale(d.data[0]))  // 使用正确的颜色映射
-    .attr('stroke', 'white')  // 添加白色边框来分隔扇形
+    .attr('fill', d => colorScale(d.data[0]))  // Apply appropriate color mapping
+    .attr('stroke', 'white')  // Add white borders to separate arcs
     .attr('stroke-width', 1);
 
-  // 在每个扇形上添加分类标签
+  // Add labels to each arc
   arcs.append('text')
-    .attr('transform', d => `translate(${arc.centroid(d)})`)  // 将标签放置到扇形的中心
+    .attr('transform', d => `translate(${arc.centroid(d)})`)  // Position labels at the center of each arc
     .attr('dy', '.35em')
     .attr('text-anchor', 'middle')
     .style('font-size', '12px')
     .style('font-weight', 'bold')
-    .text(d => d.data[0]);  // 显示每个部分的标签（English 或 Others）
+    .text(d => d.data[0]);  // Display label for each section (English or Others)
 
-  // 创建一个 Tooltip 元素
+  // Create a tooltip element
   const tooltip = d3.select('#pieChart')
     .append('div')
     .attr('class', 'tooltip')
@@ -75,50 +74,50 @@ export function drawPieChart(data) {
     .style('border-radius', '3px')
     .style('font-size', '12px');
 
-  // 添加鼠标事件：mouseover 和 mouseout
+  // Add mouse events: mouseover and mouseout for tooltip functionality
   arcs.on('mouseover', function(event, d) {
     tooltip
       .style('visibility', 'visible')
-      .html(`${d.data[0]}: ${d.data[1]} items`);  // 显示类别和数量
+      .html(`${d.data[0]}: ${d.data[1]} items`);  // Display category and count
   })
   .on('mousemove', function(event) {
     tooltip
-      .style('top', `${event.pageY + 10}px`)  // 调整 tooltip 的位置
+      .style('top', `${event.pageY + 10}px`)  // Adjust tooltip position
       .style('left', `${event.pageX + 10}px`);
   })
   .on('mouseout', function() {
-    tooltip.style('visibility', 'hidden');  // 隐藏 tooltip
+    tooltip.style('visibility', 'hidden');  // Hide tooltip
   });
 
-  // 添加标题
+  // Add chart title
   svg.append('text')
     .attr('x', 0)
     .attr('y', -radius - 10)
     .attr('text-anchor', 'middle')
     .style('font-size', '16px')
-    .text('Song In English Distribution');
+    .text('Is the song in English?');
 
-  // 获取年份字段中的独特值并生成筛选器选项
+  // Get unique year values and create options for the filter
   const years = Array.from(new Set(data.map(d => d['Year'])))
-    .sort((a, b) => a - b);  // 对年份进行排序
+    .sort((a, b) => a - b);  // Sort the years in ascending order
 
-  // 添加年份筛选器
+  // Add a year filter
   const yearFilter = d3.select('#yearFilter');
   const yearSelect = yearFilter.append('select')
     .attr('id', 'yearSelect')
     .on('change', function() {
       const selectedYear = this.value;
       console.log('Selected Year:', selectedYear);
-      // 根据选中的年份更新数据，重新绘制饼图
+      // Update data and redraw pie chart based on selected year
       updatePieChartForYear(selectedYear);
     });
 
-  // 添加 "All" 选项
+  // Add an "All" option for the filter
   yearSelect.append('option')
     .attr('value', 'All')
     .text('All');
 
-  // 填充年份选择项
+  // Populate the year options
   yearSelect.selectAll('option')
     .data(years)
     .enter()
@@ -126,45 +125,44 @@ export function drawPieChart(data) {
     .attr('value', d => d)
     .text(d => d);
 
-  // 更新饼图的函数
+  // Function to update the pie chart based on the selected year
   function updatePieChartForYear(year) {
-    // 过滤数据（如果选择了 "All"，则不进行过滤）
+    // Filter data (if "All" is selected, do not filter)
     let filteredData = year === 'All' ? data : data.filter(d => d['Year'] === +year);  
 
-
-    // 重新计算 Song_In_English 列的计数
+    // Recompute counts for the Song_In_English column
     const updatedSongInEnglishCounts = d3.rollups(
       filteredData,
       v => v.length,
       d => d['Song_In_English']
     ).sort((a, b) => d3.descending(a[1], b[1]));
 
-    // 清空旧图表
+    // Clear the existing arcs
     svg.selectAll('.arc').remove();
 
-    // 创建新的饼图部分
+    // Create new arcs using the updated data
     const newArcs = svg.selectAll('.arc')
-      .data(pie(updatedSongInEnglishCounts))  // 使用更新后的数据
+      .data(pie(updatedSongInEnglishCounts))
       .enter()
       .append('g')
       .attr('class', 'arc');
 
     newArcs.append('path')
       .attr('d', arc)
-      .attr('fill', d => colorScale(d.data[0]))  // 使用正确的颜色映射
-      .attr('stroke', 'white')  // 添加白色边框来分隔扇形
+      .attr('fill', d => colorScale(d.data[0]))  // Apply appropriate color mapping
+      .attr('stroke', 'white')  // Add white borders to separate arcs
       .attr('stroke-width', 1);
 
-    // 在每个扇形上添加分类标签
+    // Add labels to each updated arc
     newArcs.append('text')
-      .attr('transform', d => `translate(${arc.centroid(d)})`)  // 将标签放置到扇形的中心
+      .attr('transform', d => `translate(${arc.centroid(d)})`)  // Position labels at the center of each arc
       .attr('dy', '.35em')
       .attr('text-anchor', 'middle')
       .style('font-size', '12px')
       .style('font-weight', 'bold')
-      .text(d => d.data[0]);  // 显示每个部分的标签（English 或 Others）
+      .text(d => d.data[0]);  // Display label for each section (English or Others)
 
-    // 重新绑定鼠标事件，确保 tooltip 正常显示
+    // Rebind mouse events to ensure tooltip displays correctly for updated arcs
     newArcs.on('mouseover', function(event, d) {
       tooltip
         .style('visibility', 'visible')

@@ -14,33 +14,32 @@
 <body>
 
   <section id="mapView">
-    <h2>Key</h2>
-    <div>
-      <label for="yearSelector"> Year: </label>
-      <select id="yearSelector"></select>
-    <div id="barChart"></div>
+    <div class="bar-charts-container">
+      <div class="bar-chart-wrapper">
+        <h2>Key</h2>
+        <div class="controls">
+          <label for="yearSelector"> Year: </label>
+          <select id="yearSelector"></select>
+        </div>
+        <div id="keyBarChart"></div>
+      </div>
+      <div class="bar-chart-wrapper">
+        <h2>Time Signature</h2>
+        <div class="controls">
+          <label for="yearSelector1"> Year: </label>
+          <select id="yearSelector1"></select>
+        </div>
+        <div id="timeSigBarChart"></div>
+      </div>
     </div>
-    <h2>Time Signature</h2>
-    <div>
-      <label for="yearSelector1"> Year: </label>
-      <select id="yearSelector1"></select>
-    </div>
-    
-    <div id="barChart2"></div>  
-        <!-- Add Pie Chart Section -->
-        <h2> English vs. Non-English </h2>
-        <section id="pieChartSection">
-          <div id="yearFilter"></div>
-          <div id="pieChart"></div> 
-        </section> 
 
-    <h2>Group vs. Solo</h2>
-    <label for="yearFilter1"> Year:</label>
-    <select id="yearFilter1"></select>
-    <div id="bubbleChart"></div>
+    <h2> English vs. Non-English </h2>
+    <section id="pieChartSection">
+      <div id="yearFilter"></div>
+      <div id="pieChart"></div>
+    </section>
+
     <h2>Choropleth - total points</h2>
-
-    
     <div class="controls">
       <label for="yearSlider">Year</label>
       <input id="yearSlider" type="range" min="1998" max="2012" step="1" value="1998">
@@ -50,9 +49,21 @@
     <div id="map"></div>
   </section>
 
-  <section id="dotPlot">
-    <h2>Artists grouped by gender</h2>
-    <svg id="dotplotSVG" class="svg-content"></svg>
+  <section id="artistComparison">
+    <div class="comparison-container">
+      <div class="chart-wrapper">
+        <h2>Artists grouped by gender</h2>
+        <svg id="dotplotSVG" class="svg-content"></svg>
+      </div>
+      <div class="chart-wrapper">
+        <h2>Group vs. Solo</h2>
+        <div class="controls">
+          <label for="yearFilter1"> Year:</label>
+          <select id="yearFilter1"></select>
+        </div>
+        <div id="bubbleChart"></div>
+      </div>
+    </div>
   </section>
 
   <section id="lineChart">

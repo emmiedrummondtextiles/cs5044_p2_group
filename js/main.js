@@ -4,10 +4,10 @@ import { drawDotPlot } from './dotPlot.js';
 import { drawLineChart } from './lineChart.js';
 import { drawTreemap } from './treemap.js';
 import { drawCorr     } from './corrMatrix.js';
-import { drawBarChart } from './barChart.js';
-import { drawBarChart2 } from './barChart2.js';  
-import { drawPieChart } from './PieChart.js';  
-import { drawBubbleChartForGroupSolo } from './BubbleChart.js';
+import { drawKeyBarChart } from './keyBarChart.js';
+import { drawTimeSigBarChart } from './timeSigBarChart.js';  
+import { drawPieChart } from './pieChart.js';  
+import { drawBubbleChartForGroupSolo } from './bubbleChart.js';
 
 
 const DATA_SONGS  = 'data/eurovision_1998_to_2012.csv';
@@ -36,15 +36,13 @@ Promise.all([
   drawDotPlot(rows);
   drawLineChart(rows);
   drawTreemap(rows);
-  drawBarChart(rows);  
-  drawBarChart2(rows); 
+  drawKeyBarChart(rows);  
+  drawTimeSigBarChart(rows); 
   drawBubbleChartForGroupSolo(rows);
   drawPieChart(rows);  
 
 
   const corrSvg = d3.select('#corrMatrixSVG');
   drawCorr(corrSvg, rows);
-
-  // 绘制饼图，使用 Group.Solo 列的数据
 
 });

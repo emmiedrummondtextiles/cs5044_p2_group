@@ -136,3 +136,27 @@ select {
 .matrix-treemap-container > div {
   flex: 1;
 }
+
+/* Bar charts side by side */
+.bar-charts-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.bar-chart-wrapper {
+  flex: 1;
+}
+
+/* Artist comparison charts side by side */
+.comparison-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.chart-wrapper {
+  flex: 1;
+}
