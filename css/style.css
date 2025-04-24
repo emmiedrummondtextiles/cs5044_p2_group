@@ -3,12 +3,10 @@
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 
-html, body {
+body {
   margin: 0;
-  padding: 0; 
-  background: #d3747400;
-  color: rgba(71, 89, 170, 0.333);
-  font-family: 'Futura', sans-serif /* adding in futura font for css styling */
+  background: #fafafa;
+  color: #222;
 }
 
 h2 {
@@ -21,7 +19,7 @@ section {
   padding: 1.25rem 1rem 2rem;
   max-width: 1280px;
   margin: 0 auto;
-  border-bottom: 1px solid #a12d2d;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 /* Universal SVG styling for proper dimensions and display */
@@ -85,7 +83,7 @@ select {
 
 .axis path,
 .axis line {
-  stroke: #651fe6;
+  stroke: #aaa;
 }
 
 /* Common visualization layer styling */
@@ -136,5 +134,29 @@ select {
 }
 
 .matrix-treemap-container > div {
+  flex: 1;
+}
+
+/* Bar charts side by side */
+.bar-charts-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.bar-chart-wrapper {
+  flex: 1;
+}
+
+/* Artist comparison charts side by side */
+.comparison-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.chart-wrapper {
   flex: 1;
 }
